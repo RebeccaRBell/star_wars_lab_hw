@@ -5,8 +5,9 @@ import Film from './Film'
 const FilmList = ({films, filmSelected}) => {
 
         const ListOfFilms = films.map((film, index) => {
-            return <Film film={film} key={index} filmSelected={filmSelected}/>
+            return <Film film={film} key={index} filmSelected={filmSelected} />
           })
+
 
 
   return (

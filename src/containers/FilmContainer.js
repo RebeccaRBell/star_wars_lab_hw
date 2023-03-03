@@ -7,24 +7,34 @@ const FilmContainer = ({films, charPages}) => {
         const [selectedFilm, setSelectedFilm] = useState(null);
         const [characters, setCharacters] = useState([]);
 
-        const getCharacters = url => {
-          fetch(url)
-          .then(result => result.json())
-          .then(characters => setCharacters(characters.results))
-          console.log(characters);
+        const characterNames = [];
 
-        }
+        const index = 0;
 
-        useEffect(() => {
-                getCharacters(charPages[0].url)
-        }, [charPages])
-
-        const filmSelected = film => {
+        const filmSelected = (film, index) => {
                 fetch(film.url).then(result => result.json())
                 .then(chosenFilm => setSelectedFilm(chosenFilm))
-                console.log(selectedFilm)
+                const chars = selectedFilm.characters;
+                const result = chars.map(data => {
+                        return{data}
+
+                })
+                const getCharacters = characters => {
+                        const charPromises = result.data.map((index) => {
+                          return fetch(`https://swapi.dev/api/people/${index}`)
+                          .then(res => res.json())
+                        })
+                        console.log(charPromises);
+                        Promise.all(charPromises)
+                        .then((characters) => {
+                          setCharacters(characters)
+                        })
+                }
         }
 
+
+
+        
   return (
     <div className="container">
         <FilmList films={films} filmSelected={filmSelected}/>
@@ -34,4 +44,4 @@ const FilmContainer = ({films, charPages}) => {
   )
 }
 
-export default FilmContainer
+export default FilmContainer;
