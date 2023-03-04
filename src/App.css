@@ -49,6 +49,7 @@
 }
 .film-list li:hover {
   color: #F0BB0B;
+  cursor: pointer;
 }
 
 .film-detail {

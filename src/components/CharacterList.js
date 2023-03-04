@@ -1,11 +1,20 @@
 import React from 'react'
+import Character from './Character'
 
-const CharacterList = ({films}) => {
+const CharacterList = ({film, assignCharacters, characters}) => {
+  
 
+    const obj = Object(film.characters);
+    console.log(obj)
+
+    const ListOfCharacters = obj.map((character, index) => {
+      return <Character character={character} index={index} key={index}/>
+    })
 
   return (
-    <div></div>
+    <ul>
+    {ListOfCharacters}
+    </ul>
   )
-}
-
-export default CharacterList
+  }
+export default CharacterList;

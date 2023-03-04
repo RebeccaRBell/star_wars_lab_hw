@@ -1,44 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import FilmDetail from '../components/FilmDetail';
 import FilmList from '../components/FilmList';
+import CharacterList from '../components/CharacterList';
 
-const FilmContainer = ({films, charPages}) => {
+const FilmContainer = ({films}) => {
 
+        const[filmList, setFilmList] = useState([]);
         const [selectedFilm, setSelectedFilm] = useState(null);
-        const [characters, setCharacters] = useState([]);
+        const [characters, setCharacters] = useState([])
 
-        const characterNames = [];
 
-        const index = 0;
-
-        const filmSelected = (film, index) => {
-                fetch(film.url).then(result => result.json())
-                .then(chosenFilm => setSelectedFilm(chosenFilm))
-                const chars = selectedFilm.characters;
-                const result = chars.map(data => {
-                        return{data}
-
-                })
-                const getCharacters = characters => {
-                        const charPromises = result.data.map((index) => {
-                          return fetch(`https://swapi.dev/api/people/${index}`)
-                          .then(res => res.json())
-                        })
-                        console.log(charPromises);
-                        Promise.all(charPromises)
-                        .then((characters) => {
-                          setCharacters(characters)
-                        })
-                }
+        const getFilms = (url) => {
+          fetch(url).then(res => res.json())
+          .then(film => setFilmList(film));
         }
 
+        const filmSelected = (film) => {
+                fetch(film.url).then(result => result.json())
+                .then(chosenFilm => setSelectedFilm(chosenFilm))
+                }
 
-
+              const assignCharacters = function(data){
+                setCharacters(data);
+              }
+              
         
   return (
     <div className="container">
-        <FilmList films={films} filmSelected={filmSelected}/>
-        {selectedFilm ? <FilmDetail film={selectedFilm} />: null}
+        <FilmList films={films} filmSelected={filmSelected} />
+        {selectedFilm ? <FilmDetail film={selectedFilm} characters={characters} assignCharacters={assignCharacters}/>: null}
     </div>
 
   )
